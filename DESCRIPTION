@@ -1,0 +1,23 @@
+Package: CCC
+Type: Package
+Title: A wrapper to run the 3-C methodology
+Version: 0.2.0
+Date: 2015-11-30
+Author: Tal Kozlovski, Netta Shachar, Tal Galili
+Maintainer: Tal Galili <tal.galili@gmail.com>
+Description: One of the goals of the Human Brain Project is to create a platform
+    that will enable scientists to search for new biologically and clinically
+    meaningful discoveries by making use of a large database of neurological
+    data enlisted from many hospitals. One challange is that while patients are
+    diagnosed, there is a widespread concern that their diagnosis may be too wide
+    and ambiguous, and thus hides important scientific information. TAU team offered
+    a strategy, named '3C-strategy': Categorization, Clustering, Classification. The
+    3-C strategy is designed for a medical research, which combines supervised and
+    unsupervised learning leading to refining the diagnosed diseases to clinically
+    relevant classes.
+Depends: R (>= 3.0.0)
+VignetteBuilder: knitr
+License: GPL-2 | GPL-3
+RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2016-02-01 11:25:28 UTC; user
