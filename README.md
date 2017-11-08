@@ -4,7 +4,7 @@ CCC - Categorization, Clustering and Classification
 
 The package implements the 3C-strategy\\pipeline for the refinement of disease diagnoses in medical research.
 
-The first step in the analysis pipeline is manual **C**ategorization of the feature set to: (i) current clinical (ii) potential biomarkers (iii) assigned diagnosis (one variable).
+The first step in the analysis pipeline is manual **C**ategorization of the feature set to: (i) current clinical measures \[CM\] , (ii) potential biomarkers \[PB\] and (iii) assigned diagnosis \[DX\] (one variable).
 
 In the beginning of the second step (**C**lustering), a subset of the clinical measures is selected via supervised algorithm (Random Forest, LASSO or else) with the assigned diagnosis as the target variable. Then, the selected measures are used to determine the number of clusters for the clustering. Next, the clustering algorithm is applied (K-means, K-medoids or Hierarchical clustering).
 
@@ -97,10 +97,10 @@ C3_results <- C3(PBx = PBx, newy = new_y, feature_selection_method="RF", classif
 table(new_y, C3_results[[2]])
 #>      
 #> new_y  1  2  3  4  5  6
-#>     1 11  2  7  4  2  0
-#>     2  1  5  0 11  1  3
+#>     1  7  2 10  4  3  0
+#>     2  3  5  0 11  1  1
 #>     3 13  0  2  0  1  0
-#>     4  3  7  0 11  2  3
-#>     5  5  2  1  8  1  0
-#>     6  0  2  0  7  0  5
+#>     4  4  7  0 10  2  3
+#>     5  4  3  1  6  2  1
+#>     6  1  1  0  5  0  7
 ```

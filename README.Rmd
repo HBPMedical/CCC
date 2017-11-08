@@ -14,10 +14,7 @@ knitr::opts_chunk$set(
 
 The package implements the 3C-strategy\\pipeline for the refinement of disease diagnoses in medical research.  
 
-The first step in the analysis pipeline is manual **C**ategorization of the feature set to:
-  (i) current clinical
-  (ii) potential biomarkers
-  (iii) assigned diagnosis (one variable).  
+The first step in the analysis pipeline is manual **C**ategorization of the feature set to: (i) current clinical measures [CM] , (ii) potential biomarkers [PB] and (iii) assigned diagnosis [DX] (one variable).  
 
 In the beginning of the second step (**C**lustering), a subset of the clinical measures is selected via supervised algorithm (Random Forest, LASSO or else) with the assigned diagnosis as the target variable. Then, the selected measures are used to determine the number of clusters for the clustering. Next, the clustering algorithm is applied (K-means, K-medoids or Hierarchical clustering).
 
