@@ -290,28 +290,85 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>In the first step, features are categorized, according to experts knowledge, to three categories: + <strong>Clinical Measures (CM)</strong> - Disease symptoms, Patients’ functional state and abilities.<br />
 + <strong>Potential Biomarkers (PB)</strong> - Imaging, Proteins, Genetics etc.<br />
 + <strong>Assigned Diagnosis (DX)</strong> - The patients’ diagnoses.</p>
-<p>Each feature category is registered in a <strong>META_DATA</strong> file, which includes to columns: One named “varName”, which is the variable/column name from the data file, and another column named “varCategory” which is the categorization of the variable (i.e.: Dx, CM or PB from the categorization done in stage C1).</p>
+<p>Each feature category is registered in an auxilary file, which includes to columns: One named “varName”, which is the variable/column name from the data file, and another column named “varCategory” which is the categorization of the variable (i.e.: Dx, CM or PB from the categorization done in stage C1).</p>
 <p>A second file includes the data itself: data with Dx (disease diagnosis), CM (Clinical measurements) PB (Potential biomarkers). Each row indicates a patient.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">DATA &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/DATA.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">META_DATA &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/META_DATA.csv&quot;</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">200</span>, <span class="dv">-1</span>]</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">head</span>(META_DATA)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">table</span>(META_DATA[, <span class="st">&quot;varCategory&quot;</span>])</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">head</span>(DATA)[, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">data</span>(c3_sample2)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">data</span>(c3_sample2_categories)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">head</span>(c3_sample2_categories)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;     varName varCategory</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; 1 real_DX_f          DX</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; 2      CM.1          CM</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; 3      CM.2          CM</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; 4      CM.3          CM</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; 5      CM.4          CM</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; 6      CM.5          CM</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">table</span>(c3_sample2_categories[, <span class="st">&quot;varCategory&quot;</span>])</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;  CM  DX  PB </span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 100   1  99</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw">head</span>(c3_sample2)[, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt;     real_DX_f assigned_DX_f      CM.1     CM.2      CM.3</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 202       1.1             1  7.533557 34.55116 -9.841392</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; 969       3.0             3 60.977531 26.95108 29.231806</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; 462       1.2             1  4.499471 10.26483 35.451578</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; 393       1.1             1  7.816219 10.40681  2.748677</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; 721       2.0             2 24.723212 81.48264 37.537046</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt; 723       2.0             2 29.404466 49.75680 -3.019989</span></a></code></pre></div>
 </section>
 <section id="c2---clustering" class="level2">
 <h2>C2 - Clustering</h2>
 <p>This step includes: 1. <strong>Feature Selection</strong>: The initial screening of clinical features using the assigned diagnosis as target.<br />
 2. <strong>decision for number of clusters</strong>: The selected features are used to decide the appropriate number of clusters, using K-gap statistic. 3. <strong>Clustering</strong></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(CCC)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">CM_AD_matrix &lt;-<span class="st"> </span><span class="kw">get_xy_from_DATA_C2</span>(DATA, META_DATA)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">CM_AD_matrix &lt;-<span class="st"> </span><span class="kw">get_xy_from_DATA_C2</span>(c3_sample2, c3_sample2_categories)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">x &lt;-<span class="st"> </span>CM_AD_matrix[[<span class="dv">1</span>]]  <span class="co"># CM matrix</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">y &lt;-<span class="st"> </span>CM_AD_matrix[[<span class="dv">2</span>]]  <span class="co"># DD vector</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">C2_results &lt;-<span class="st"> </span><span class="kw">C2</span>(x, y, <span class="dt">feature_selection_method =</span> <span class="st">&quot;RF&quot;</span>, <span class="dt">num_clusters_method =</span> <span class="st">&quot;Manhattan&quot;</span>, </a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">C2_results &lt;-<span class="st"> </span><span class="kw">C2</span>(x[, <span class="dv">1</span><span class="op">:</span><span class="dv">50</span>], y, <span class="dt">feature_selection_method =</span> <span class="st">&quot;RF&quot;</span>, <span class="dt">num_clusters_method =</span> <span class="st">&quot;Manhattan&quot;</span>, </a>
 <a class="sourceLine" id="cb2-7" data-line-number="7">    <span class="dt">clustering_method =</span> <span class="st">&quot;Manhattan&quot;</span>, <span class="dt">plot.num.clus =</span> <span class="ot">TRUE</span>, <span class="dt">plot.clustering =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">    <span class="dt">k =</span> <span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">C2_results</a></code></pre></div>
+<a class="sourceLine" id="cb2-8" data-line-number="8">    <span class="dt">k =</span> <span class="dv">6</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">C2_results</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;  [1] &quot;CM.37&quot;         &quot;CM.28&quot;         &quot;CM.22&quot;         &quot;CM.44&quot;        </span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;  [5] &quot;assigned_DX_f&quot; &quot;CM.32&quot;         &quot;CM.8&quot;          &quot;CM.33&quot;        </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;  [9] &quot;CM.20&quot;         &quot;CM.38&quot;         &quot;CM.3&quot;          &quot;CM.24&quot;        </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; [13] &quot;CM.31&quot;         &quot;CM.66&quot;         &quot;CM.16&quot;         &quot;CM.10&quot;        </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; [17] &quot;CM.40&quot;         &quot;CM.26&quot;         &quot;CM.25&quot;         &quot;CM.13&quot;        </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; [21] &quot;CM.55&quot;         &quot;CM.23&quot;         &quot;CM.45&quot;         &quot;CM.77&quot;        </span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [25] &quot;CM.29&quot;         &quot;CM.4&quot;          &quot;CM.5&quot;          &quot;CM.88&quot;        </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; [29] &quot;CM.17&quot;         &quot;CM.43&quot;         &quot;CM.9&quot;          &quot;CM.6&quot;         </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; [33] &quot;CM.41&quot;         &quot;CM.2&quot;          &quot;CM.36&quot;         &quot;CM.27&quot;        </span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; [37] &quot;CM.34&quot;         &quot;CM.30&quot;         &quot;CM.14&quot;         &quot;CM.39&quot;        </span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; [41] &quot;CM.42&quot;         &quot;CM.11&quot;         &quot;CM.12&quot;         &quot;real_DX_f&quot;    </span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; [45] &quot;CM.15&quot;         &quot;CM.19&quot;         &quot;CM.21&quot;         &quot;CM.7&quot;         </span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; [49] &quot;CM.18&quot;         &quot;CM.35&quot;        </span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt;  202  969  462  393  721  723  149  352  689  752  610  601  635  662 1030 </span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt;    1    2    3    4    5    6    3    1    5    2    5    6    6    6    5 </span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt;  984  132  833 1061  331  270   19  152  110  279  930  705 1068  657  885 </span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt;    2    3    2    2    1    1    3    2    3    4    3    6    2    5    2 </span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt;  444  437  199  530  302  392 1036  235  674  242  327  912  201  661  485 </span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt;    6    4    3    3    4    4    6    1    5    1    1    3    5    5    6 </span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt;  310   56  120  362  922  264  245 1007 1140  968 1043  540  257  146  320 </span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt;    1    3    3    4    2    4    1    3    6    2    2    4    6    3    4 </span></a>
+<a class="sourceLine" id="cb3-30" data-line-number="30"><span class="co">#&gt;  931   66  914  119  871  346  873  613  411  105  859 1130 1019 1090  581 </span></a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#&gt;    3    3    2    3    2    4    3    2    4    3    3    2    6    6    3 </span></a>
+<a class="sourceLine" id="cb3-32" data-line-number="32"><span class="co">#&gt;  619  185 1124  883  842  879  733  423   10 1067  936  238  551  708 1024 </span></a>
+<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">#&gt;    5    2    5    2    2    5    5    4    3    6    2    6    2    6    1 </span></a>
+<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co">#&gt;   14  297  483  919  964  278  359  338  204  749  843  750  230  782  664 </span></a>
+<a class="sourceLine" id="cb3-35" data-line-number="35"><span class="co">#&gt;    3    1    1    5    2    4    4    4    6    5    3    5    6    5    6 </span></a>
+<a class="sourceLine" id="cb3-36" data-line-number="36"><span class="co">#&gt;  373   46  440   87  341  355   86  164  166  992  762  890 1196  234  501 </span></a>
+<a class="sourceLine" id="cb3-37" data-line-number="37"><span class="co">#&gt;    1    3    2    3    2    5    3    3    3    5    6    2    2    1    4 </span></a>
+<a class="sourceLine" id="cb3-38" data-line-number="38"><span class="co">#&gt;  775  888 1171  216  647  463  685  451  944  344 1103  528  361 1114  886 </span></a>
+<a class="sourceLine" id="cb3-39" data-line-number="39"><span class="co">#&gt;    6    3    6    4    6    2    6    4    2    4    6    1    4    2    3 </span></a>
+<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="co">#&gt;  574  106  117 1190  571  517  339  720  911  895  282  639  875  623  209 </span></a>
+<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co">#&gt;    1    3    3    5    4    1    1    5    3    3    4    5    2    6    1</span></a></code></pre></div>
 <p>When k is missing, the K-gap statistic plot and summary are presented and teh user may choose the value.</p>
 </section>
 <section id="c3---classification" class="level2">
@@ -324,18 +381,39 @@ Same algorithms as for stage C2.</p></li>
 </ol>
 <p>Running the C3 function:<br />
 Finally, we will create a new response variable (named “newy”) using the assigned diagnoses obtained in step C2.<br />
-We will also create a data frame that consists of PB variables from our initial DATA file.<br />
+We will also create a data frame that consists of PB variables from our initial data file.<br />
 We will use both of the above to create a new classification based on the PB variables.</p>
 <p>Feature Selection method: Random Forest (Default)<br />
 Classification: Random Forest (Default)</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Creating PB matrix</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">PBx &lt;-<span class="st"> </span><span class="kw">get_PBx_from_DATA_C3</span>(DATA, META_DATA)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">newy &lt;-<span class="st"> </span><span class="kw">unlist</span>(C2_results[[<span class="dv">3</span>]])</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">C3_results &lt;-<span class="st"> </span><span class="kw">C3</span>(PBx, newy, <span class="dt">feature_selection_method =</span> <span class="st">&quot;RF&quot;</span>, <span class="dt">classification_method =</span> <span class="st">&quot;RF&quot;</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">C3_results</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw">table</span>(newy, C3_results[[<span class="dv">2</span>]])</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">error.rate &lt;-<span class="st"> </span><span class="kw">sum</span>(newy <span class="op">!=</span><span class="st"> </span>C3_results[[<span class="dv">2</span>]])<span class="op">/</span><span class="kw">length</span>(newy)</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">error.rate</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Creating PB matrix</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">PBx &lt;-<span class="st"> </span><span class="kw">get_PBx_from_DATA_C3</span>(c3_sample2, c3_sample2_categories)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">newy &lt;-<span class="st"> </span><span class="kw">unlist</span>(C2_results[[<span class="dv">3</span>]])</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">C3_results &lt;-<span class="st"> </span><span class="kw">C3</span>(PBx, newy, <span class="dt">feature_selection_method =</span> <span class="st">&quot;RF&quot;</span>, <span class="dt">classification_method =</span> <span class="st">&quot;RF&quot;</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">C3_results</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;  [1] &quot;PB.84&quot;  &quot;PB.6&quot;   &quot;PB.69&quot;  &quot;PB.85&quot;  &quot;PB.23&quot;  &quot;PB.56&quot;  &quot;PB.47&quot; </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;  [8] &quot;PB.58&quot;  &quot;PB.12&quot;  &quot;PB.53&quot;  &quot;PB.43&quot;  &quot;PB.91&quot;  &quot;PB.13&quot;  &quot;PB.8&quot;  </span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; [15] &quot;PB.10&quot;  &quot;PB.57&quot;  &quot;PB.90&quot;  &quot;PB.77&quot;  &quot;PB.95&quot;  &quot;PB.24&quot;  &quot;PB.9&quot;  </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; [22] &quot;CM.100&quot; &quot;PB.75&quot;  &quot;PB.3&quot;   &quot;PB.5&quot;   &quot;PB.30&quot;  &quot;PB.14&quot;  &quot;PB.81&quot; </span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; [29] &quot;PB.15&quot;  &quot;PB.41&quot;  &quot;PB.16&quot;  &quot;PB.51&quot;  &quot;PB.64&quot;  &quot;PB.52&quot;  &quot;PB.72&quot; </span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; [36] &quot;PB.60&quot;  &quot;PB.7&quot;   &quot;PB.32&quot;  &quot;PB.88&quot;  &quot;PB.42&quot;  &quot;PB.59&quot;  &quot;PB.80&quot; </span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;   [1] 4 3 4 4 5 5 3 3 5 6 6 6 5 6 3 3 2 3 3 4 4 3 3 3 1 2 5 3 6 2 4 3 3 4 4</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;  [36] 1 3 1 5 4 1 2 1 6 3 4 3 3 4 3 1 4 3 3 2 3 4 1 3 4 2 3 2 3 2 4 2 6 4 3</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt;  [71] 2 2 3 3 6 5 3 3 2 2 3 5 3 3 3 2 1 6 5 3 3 1 3 3 2 1 3 4 1 5 2 6 4 5 5</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; [106] 1 3 6 3 4 1 3 3 3 2 6 2 3 4 3 6 2 3 4 6 3 5 3 2 1 3 3 1 3 2 3 3 3 3 3</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; [141] 3 4 5 2 2 1 5 2 5 4</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; Levels: 1 2 3 4 5 6</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="kw">table</span>(newy, C3_results[[<span class="dv">2</span>]])</a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt;     </span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; newy  1  2  3  4  5  6</span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt;    1  4  0  6  9  0  0</span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt;    2  0 12 12  1  0  4</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt;    3  0 11 20  2  0  1</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt;    4  7  0  6  9  0  0</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt;    5  2  1  5  0  9  4</span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt;    6  3  0  8  2  7  5</span></a></code></pre></div>
 </section>
 
 
