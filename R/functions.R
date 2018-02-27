@@ -927,14 +927,15 @@ classification_fun <- function(PBx, newy, method = "RF") {
 #' @examples
 #' # RF_classify(PBx, newy)
 
+library(randomForest)
+
 RF_classify <- function(PBx, newy) {
   if (!is.factor(newy)) {
     warning("y is not a factor - but was coerced into one.")
     newy <- as.factor(newy)
   }
   fulldata <- data.frame(PBx, newy)
-  rf_clus_PB <- randomForest(newy ~ ., data = fulldata, importance = TRUE, 
-                             proximity = TRUE)
+  rf_clus_PB <- randomForest(newy ~ ., data = fulldata, ntree = 50)
   model <<- rf_clus_PB 
   return(rf_clus_PB$predicted)
 }
