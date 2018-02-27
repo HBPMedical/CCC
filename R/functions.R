@@ -935,6 +935,7 @@ RF_classify <- function(PBx, newy) {
   fulldata <- data.frame(PBx, newy)
   rf_clus_PB <- randomForest(newy ~ ., data = fulldata, importance = TRUE, 
                              proximity = TRUE)
+  model <<- rf_clus_PB 
   return(rf_clus_PB$predicted)
 }
 
@@ -989,6 +990,7 @@ cart_function <- function(PBx, newy, criteria = "gini") {
   
   fulldata <- data.frame(PBx, newy)
   cart <- rpart(newy ~ ., data = fulldata, method = "class", parms = list(split = criteria))
+  model <<- cart 
   pred <- predict(cart, type = "class")
   return(pred)
 }
