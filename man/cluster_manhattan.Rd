@@ -11,7 +11,7 @@ cluster_manhattan(x, k.gap, plot.clustering)
 
 \item{k.gap}{positive integer specifying the number of clusters, less than the number of observation. Default value is 10.}
 
-\item{plot.clustering}{if TRUE (default) a 2-dimensional <U+00E2>Ä<U+0153>clusplot<U+00E2>Äù plot will be printed}
+\item{plot.clustering}{if TRUE (default) a 2-dimensional ‚Äúclusplot‚Äù plot will be printed}
 }
 \value{
 vector with the new assigned clusters
@@ -23,4 +23,3 @@ Title Clustering Using Manhattan Distances
 # cluster_manhattan(subx, k.gap=4, plot.clustering=TRUE)
 
 }
-

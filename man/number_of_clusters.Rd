@@ -11,14 +11,14 @@ number_of_clusters(x, method = "Euclidean", K.max = 10, B = 100,
 \arguments{
 \item{x}{Data matrix}
 
-\item{method}{character string indicating how the <U+00E2>€<U+0153>optimal<U+00E2>€ number of clusters: Euclidean (default), Manhattan, 
+\item{method}{character string indicating how the â€œoptimalâ€ number of clusters: Euclidean (default), Manhattan, 
 heirarchical euclidean or heirarchcal manhattan}
 
 \item{K.max}{the maximum number of clusters to consider, must be at least two. Default value is 10.}
 
-\item{B}{integer, number of Monte Carlo (<U+00E2>€<U+0153>bootstrap<U+00E2>€) samples. Default value is 100.}
+\item{B}{integer, number of Monte Carlo (â€œbootstrapâ€) samples. Default value is 100.}
 
-\item{verbose}{integer or logical, determining if <U+00E2>€<U+0153>progress<U+00E2>€ output should be printed. The default prints
+\item{verbose}{integer or logical, determining if â€œprogressâ€ output should be printed. The default prints
 one bit per bootstrap sample. Default value is FALSE.}
 
 \item{plot.num.clus}{if TRUE (default) the gap statistic plot will be printed}
@@ -45,5 +45,6 @@ Title LASSO
 # LASSO_selection(x, y)
 Title Deciding on Number of Clusters
 
-}
+# number_of_clusters(subx, B=50, method='Euclidean')
 
+}

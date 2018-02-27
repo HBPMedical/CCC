@@ -23,4 +23,3 @@ Title Classification Using CART
 \examples{
 # cart_function(PBx, newy, 'information')
 }
-

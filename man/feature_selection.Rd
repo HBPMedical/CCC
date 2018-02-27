@@ -26,4 +26,3 @@ Title Features Selection
 # feature_selection(x[, 1:30], y, method='BIC')
 # feature_selection(x, y, method='FDR_screening')
 }
-

@@ -13,7 +13,7 @@ clustering(x, k.gap = 2, method = "Euclidean", plot.clustering = TRUE)
 
 \item{method}{Indicating which method to use for clustering. Default is 'Euclidean'.}
 
-\item{plot.clustering}{if TRUE (default) a 2-dimensional <U+00E2>Ä<U+0153>clusplot<U+00E2>Äù plot will be printed}
+\item{plot.clustering}{if TRUE (default) a 2-dimensional ‚Äúclusplot‚Äù plot will be printed}
 }
 \value{
 vector withnew assigned clusters
@@ -25,4 +25,3 @@ Title Clustering
  clustering(subx, k.gap = 5, method='Euclidean', plot.clustering=TRUE)
 
 }
-

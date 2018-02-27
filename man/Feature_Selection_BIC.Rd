@@ -30,4 +30,3 @@ Title Feature Selection Using BIC
 \examples{
 #  Feature_Selection_BIC(x[, 1:30], y, nbest=1, nvmax=5, plot.BIC=TRUE, nmin=4)
 }
-

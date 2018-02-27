@@ -14,11 +14,11 @@ Default value is 10.}
 
 \item{diss}{if TRUE (default as FALSE) x will be considered as a dissimilarity matrix}
 
-\item{B}{integer, number of Monte Carlo (<U+00E2>€<U+0153>bootstrap<U+00E2>€) samples. Default value is 100.}
+\item{B}{integer, number of Monte Carlo (â€œbootstrapâ€) samples. Default value is 100.}
 
 \item{cluster.only}{if true (default) only the clustering will be computed and returned, see details.}
 
-\item{verbose}{integer or logical, determining if <U+00E2>€<U+0153>progress<U+00E2>€ output should be printed. The default prints
+\item{verbose}{integer or logical, determining if â€œprogressâ€ output should be printed. The default prints
 one bit per bootstrap sample. Default as FALSE.}
 
 \item{plot.num.clus}{if TRUE (default) the gap statistic plot will be printed}
@@ -35,4 +35,3 @@ Title Gap statisic with k-medoids manhattan
 #  k_manhattan (subx, K.max = 8, diss=FALSE, B = 50, cluster.only = TRUE, verbose = FALSE)
 
 }
-

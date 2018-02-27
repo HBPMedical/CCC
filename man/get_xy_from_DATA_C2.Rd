@@ -22,4 +22,3 @@ Title get_xy_from_DATA_C2
 # x <- get_xy_from_DATA_C2(DATA, META_DATA)[[1]]
 # y <- get_xy_from_DATA_C2(DATA, META_DATA)[[2]]
 }
-

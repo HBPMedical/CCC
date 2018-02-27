@@ -22,4 +22,3 @@ Title Deciding on number of clusters by Hierarchical clustering manhattan
 hclust_man(subx, k.gap = 5, plot.clustering=TRUE)
 
 }
-

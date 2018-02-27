@@ -11,9 +11,9 @@ k_euclidean(x, K.max, B, verbose, plot.num.clus)
 
 \item{K.max}{the maximum number of clusters to consider, must be at least two. Default value is 10.}
 
-\item{B}{integer, number of Monte Carlo (<U+00E2>€<U+0153>bootstrap<U+00E2>€) samples. Default value is 100.}
+\item{B}{integer, number of Monte Carlo (â€œbootstrapâ€) samples. Default value is 100.}
 
-\item{verbose}{integer or logical, determining if <U+00E2>€<U+0153>progress<U+00E2>€ output should be printed. The default prints
+\item{verbose}{integer or logical, determining if â€œprogressâ€ output should be printed. The default prints
 one bit per bootstrap sample. Default value is FALSE.}
 
 \item{plot.num.clus}{if TRUE (default) the gap statistic plot will be printed}
@@ -28,4 +28,3 @@ Title Gap statisic with k-medoids euclidean
 # k_euclidean(subx, K.max=8, B=50, verbose=FALSE, plot.num.clus=TRUE)
 
 }
-

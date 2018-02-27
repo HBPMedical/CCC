@@ -20,4 +20,3 @@ Title Classification Using Random Forest Without Down Sampling
 \examples{
 # RF_classify(PBx, newy)
 }
-

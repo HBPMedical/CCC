@@ -21,4 +21,3 @@ Title Classification Using Random Forest Without Down Sampling
 \examples{
 # RF_one_by_one(PBx, newy)
 }
-

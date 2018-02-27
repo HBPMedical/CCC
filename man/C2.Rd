@@ -33,4 +33,3 @@ Title C2
 resultC2 <- C2(x, y, feature_selection_method='RF', num_clusters_method='Manhattan', clustering_method='Manhattan', plot.num.clus=TRUE, plot.clustering=TRUE)
 C2(x, y, feature_selection_method='BIC', num_clusters_method='Manhattan', clustering_method='Hmanhattan', plot.num.clus=TRUE, plot.clustering=FALSE, nbest=1, nvmax=8, B=50)
 }
-

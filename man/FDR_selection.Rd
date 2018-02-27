@@ -24,4 +24,3 @@ Title Feature Selection Using FDR selection
 \examples{
 # FDR_selection(x, y, q = 0.001, eta = 0.1)
 }
-

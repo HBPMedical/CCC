@@ -22,4 +22,3 @@ Title Classification for the potential Biomarkers
 \examples{
 # classification_fun(PBx, newy, method='RF')
 }
-

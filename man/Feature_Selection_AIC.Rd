@@ -21,4 +21,3 @@ Title Feature Selection Using AIC
 \examples{
 # Feature_Selection_AIC(x, y)
 }
-
