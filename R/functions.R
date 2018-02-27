@@ -689,7 +689,7 @@ cluster_euclidean <- function(x, k.gap, plot.clustering) {
   
   return(unlist(clusters))
 }
-
+ 
 
 
 ### Manhattan ###
