@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, echo = FALSE}
@@ -12,13 +14,13 @@ knitr::opts_chunk$set(
 
 # CCC - Categorization, Clustering and Classification
 
-The package implements the 3C-strategy\\pipeline for the refinement of disease diagnoses in medical research.  
+The package implements the 3C-strategy for the refinement of disease diagnoses in medical research.  
 
 The first step in the analysis pipeline is manual **C**ategorization of the feature set to: (i) current clinical measures [CM] , (ii) potential biomarkers [PB] and (iii) assigned diagnosis [DX] (one variable).  
 
 In the beginning of the second step (**C**lustering), a subset of the clinical measures is selected via supervised algorithm (Random Forest, LASSO or else) with the assigned diagnosis as the target variable. Then, the selected measures are used to determine the number of clusters for the clustering. Next, the clustering algorithm is applied (K-means, K-medoids or Hierarchical clustering).
 
-In step 3 a new model is trained, using the potential biomarkers as features, to **C**lassify the data according to the cluster labels created in step 2.
+In the third step, new model is trained using the potential biomarkers as features, to **C**lassify the data according to the cluster labels created in step 2.
 
 ## Installation
 
@@ -31,29 +33,29 @@ devtools::install_github("HBPMedical/CCC")
 
 ## Example
 
-This is a basic example of the pipeline:
+This is a basic example of the analysis pipeline:
 
 ```{r example, warning=FALSE,message=FALSE}
-library(tidyverse)
 library(CCC)
 
-adni_subset <- read.csv("data/adni_subset.csv")
-adni_subset_metadata <- read.csv("data/adni_subset_metadata.csv")
+data(c3_sample1)
+data(c3_sample1_categories)
 
-head(adni_subset_metadata) 
-table(adni_subset_metadata[,"varCategory"])
-head(adni_subset)
+head(c3_sample1) 
+table(c3_sample1_categories[,"varCategory"])
 
-x <- get_xy_from_DATA_C2(adni_subset, adni_subset_metadata)$x
-y <- get_xy_from_DATA_C2(adni_subset, adni_subset_metadata)$y
+x <- get_xy_from_DATA_C2(c3_sample1, c3_sample1_categories)$x
+y <- get_xy_from_DATA_C2(c3_sample1, c3_sample1_categories)$y
 
 C2_results <- C2(x, y, feature_selection_method="RF", num_clusters_method="Manhattan", clustering_method="Manhattan", plot.num.clus=TRUE, plot.clustering=TRUE, k=6)
 
 C2_results
 
-PBx <- get_PBx_from_DATA_C3(adni_subset, adni_subset_metadata)
+PBx <- get_PBx_from_DATA_C3(c3_sample1, c3_sample1_categories)
 new_y <- C2_results[[3]]
-C3_results <- C3(PBx = PBx, newy = new_y, feature_selection_method="RF", classification_method="RF") 
+
+C3_results <- C3(PBx = PBx, newy = new_y, feature_selection_method = "RF", classification_method="RF") 
 
 table(new_y, C3_results[[2]])
+
 ```
