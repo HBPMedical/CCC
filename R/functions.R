@@ -645,7 +645,7 @@ khclust_man <- function(x, K.max, B, verbose, plot.num.clus) {
 #' @examples
 #'  clustering(subx, k.gap = 5, method='Euclidean', plot.clustering=TRUE)
 #' 
-clustering <- function(x, k.gap = 2, method = "Euclidean", plot.clustering = TRUE) {
+clustering <- function(x, k.gap = 2, method = "Euclidean", plot.clustering = FALSE) {
   
   if (method == "Euclidean") {
     clusters <- cluster_euclidean(x, k.gap, plot.clustering)
